@@ -9,8 +9,9 @@ import jakarta.persistence.Table;
 @Table(name = "televisions")
 public class Television {
     //variabelen
-    @Id
-    @GeneratedValue
+    @Id // de identifier
+    @GeneratedValue // genereert automatisch id-waarde
+    private Long id;
     private String type;
     private String brand;
     private String name;
@@ -29,7 +30,8 @@ public class Television {
     private Integer sold;
 
     //constructor
-    public Television(String type, String brand, String name, Double price, Double availableSize, Double refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
+    public Television(Long id, String type, String brand, String name, Double price, Double availableSize, Double refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
+        this.id = id;
         this.type = type;
         this.brand = brand;
         this.name = name;
@@ -49,6 +51,14 @@ public class Television {
     }
 
     //getters en setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
