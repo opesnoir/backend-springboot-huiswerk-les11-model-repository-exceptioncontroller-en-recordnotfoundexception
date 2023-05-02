@@ -1,4 +1,4 @@
-package exception;
+package com.example.backendjavales11huiswerkopdracht.exception;
 
 public class RecordNotFoundException extends RuntimeException {
 

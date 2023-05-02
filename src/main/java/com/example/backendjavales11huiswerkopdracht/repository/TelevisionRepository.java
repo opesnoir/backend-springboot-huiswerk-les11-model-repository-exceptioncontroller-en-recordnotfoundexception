@@ -1,8 +1,7 @@
-package repository;
+package com.example.backendjavales11huiswerkopdracht.repository;
 
-import model.Television;
+import com.example.backendjavales11huiswerkopdracht.model.Television;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 public interface TelevisionRepository extends JpaRepository<Television, Long> {
 
