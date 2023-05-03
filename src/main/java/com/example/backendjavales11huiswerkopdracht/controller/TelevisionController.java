@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController //deze class is een rest controller
 @RequestMapping("/televisions") //root path
@@ -53,14 +54,43 @@ public class TelevisionController {
     }
 
 
+    //een televisie object updaten
+    //Een Optional<T> is een container die kan worden gebruikt om te bepalen of een waarde bestaat of niet. Het is ontworpen om null-referenties te voorkomen en om aan te geven dat een waarde mogelijk leeg kan zijn.
+    @PutMapping("{id}")
+    public ResponseEntity<Television> updateTelevision(@RequestBody Television newTelevision, @PathVariable long id){
+        Optional<Television> existingTelevision = repository.findById(id);
+        if (existingTelevision.isEmpty()){
+            throw new RecordNotFoundException("Television with id " + id + " not found");
+        } else {
+            //nieuw object aanmaken
+            Television televisionToUpdate = existingTelevision.get();
+            //geef aan welke velden aangepast kunnen worden
+            televisionToUpdate.setType(newTelevision.getType());
+            televisionToUpdate.setBrand(newTelevision.getBrand());
+            televisionToUpdate.setName(newTelevision.getName());
+            televisionToUpdate.setPrice(newTelevision.getPrice());
+            televisionToUpdate.setAvailableSize(newTelevision.getAvailableSize());
+            televisionToUpdate.setRefreshRate(newTelevision.getRefreshRate());
+            televisionToUpdate.setScreenType(newTelevision.getScreenType());
+            televisionToUpdate.setScreenQuality(televisionToUpdate.getScreenQuality());
+            //etc.
+
+            //sla bijgewerkte televisie-object op in de database
+            repository.save(televisionToUpdate);
+
+            //retouneer een HTTP respons met status 200, update is succesvol uitgevoerd
+            return ResponseEntity.ok(televisionToUpdate);
+
+        }
+
+    }
+
+
 
 
 /*
 
 
-
-    //tv aanpassen
-    @PutMapping("/{id}")
 
     //tv verwijderen
     @DeleteMapping("/{id}")*/
