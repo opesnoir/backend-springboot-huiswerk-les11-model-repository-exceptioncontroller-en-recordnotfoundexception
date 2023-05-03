@@ -47,7 +47,7 @@ public class TelevisionController {
 
     //tv object maken en toevoegen aan de repository
     @PostMapping
-    public ResponseEntity<Television> createTelevision(@RequestBody Television television){
+    public ResponseEntity<Television> createTelevision(@RequestBody Television television) {
         repository.save(television);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + television.getId()).toUriString());
         return ResponseEntity.created(uri).body(television);
@@ -57,9 +57,9 @@ public class TelevisionController {
     //een televisie object updaten
     //Een Optional<T> is een container die kan worden gebruikt om te bepalen of een waarde bestaat of niet. Het is ontworpen om null-referenties te voorkomen en om aan te geven dat een waarde mogelijk leeg kan zijn.
     @PutMapping("{id}")
-    public ResponseEntity<Television> updateTelevision(@RequestBody Television newTelevision, @PathVariable long id){
+    public ResponseEntity<Television> updateTelevision(@RequestBody Television newTelevision, @PathVariable long id) {
         Optional<Television> existingTelevision = repository.findById(id);
-        if (existingTelevision.isEmpty()){
+        if (existingTelevision.isEmpty()) {
             throw new RecordNotFoundException("Television with id " + id + " not found");
         } else {
             //nieuw object aanmaken
@@ -78,22 +78,23 @@ public class TelevisionController {
             //sla bijgewerkte televisie-object op in de database
             repository.save(televisionToUpdate);
 
-            //retouneer een HTTP respons met status 200, update is succesvol uitgevoerd
+            //retourneer een HTTP respons met status 200, update is succesvol uitgevoerd
             return ResponseEntity.ok(televisionToUpdate);
 
         }
 
     }
 
-
-
-
-/*
-
-
-
     //tv verwijderen
-    @DeleteMapping("/{id}")*/
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteTelevision(@PathVariable long id) {
+        Optional<Television> televisionToDelete = repository.findById(id);
+        if (televisionToDelete.isPresent()) {
+            repository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
