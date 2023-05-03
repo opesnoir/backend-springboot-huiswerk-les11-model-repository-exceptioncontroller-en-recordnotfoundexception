@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController //deze class is een rest controller
@@ -42,11 +44,20 @@ public class TelevisionController {
     }
 
 
-/*    //lijst met een enkele tv, op id
-    @GetMapping("/{id}")
+    //tv object maken en toevoegen aan de repository
+    @PostMapping
+    public ResponseEntity<Television> createTelevision(@RequestBody Television television){
+        repository.save(television);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + television.getId()).toUriString());
+        return ResponseEntity.created(uri).body(television);
+    }
 
-    //tv toevoegen
-    @PostMapping("/{id}")
+
+
+
+/*
+
+
 
     //tv aanpassen
     @PutMapping("/{id}")
